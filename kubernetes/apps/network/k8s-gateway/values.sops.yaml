@@ -1,0 +1,32 @@
+fullnameOverride: k8s-gateway
+domain: przmo.com
+ttl: 1
+service:
+    type: LoadBalancer
+    port: 53
+    annotations:
+        io.cilium/lb-ipam-ips: 192.168.2.136
+    externalTrafficPolicy: Cluster
+watchedResources:
+    - Ingress
+    - Service
+sops:
+    kms: []
+    gcp_kms: []
+    azure_kv: []
+    hc_vault: []
+    age:
+        - recipient: age1ws8tm4vrmhjvd0qqwxqshfz42nt6q4k5wwgqsuxyun0667dws59s79u6nc
+          enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBFQTBieVFkd2NYWllUWmJp
+            UHI4dlZ3QXNOS0piWG1PTU0zbURBaEd5N1hRCjg3YzljbUd2OE0xeitWMDNFSzZW
+            bWluK2ZWRmZvdkg3RVd3NWNpRzBzNWsKLS0tIHdCQ2g2aXhEZlZuNncvU25rNVNT
+            MlFiQ3FYcVpZQnkzN3ZZNXRacGZnUm8KHisF/BfEl9XyblIX4PJmb7Cu/yGN7GMY
+            pzWaM5S9q304SMpxTFQQ7uvFkVOg49Z5T7OjM7wMrT/U3stLWgKdJg==
+            -----END AGE ENCRYPTED FILE-----
+    lastmodified: "2024-12-07T01:36:33Z"
+    mac: ENC[AES256_GCM,data:BQATeWBknpL6mLBkTyhl3p3U3ExvwDA5BZTItiVOplE6nZvDnVhxNc1kPeDJ2Xs7oCBYaoEU4mf0RHC0xpr/6eTh3dbBMA3nrudw1Hq4thxAEqZL0HDqZQBu2YcsB6NFwK1DyVgk754ilgpF0e5zlaZ/KWXqJEIkfzSF4X2Bwec=,iv:FGuzo5Y/aPei3uClqdZ1XOpqdWXVMn+/G5JF4TWU37I=,tag:wpE5ueIl1FpPolCAA+05mQ==,type:str]
+    pgp: []
+    encrypted_regex: ^(data|stringData)$
+    version: 3.9.2

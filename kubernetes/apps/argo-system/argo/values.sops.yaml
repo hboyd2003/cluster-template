@@ -1,0 +1,167 @@
+crds:
+    install: true
+global:
+    domain: argo.przmo.com
+configs:
+    params:
+        server.insecure: true
+    cm:
+        statusbadge.enabled: true
+        kustomize.buildOptions: --enable-alpha-plugins --enable-exec
+        helm.valuesFileSchemes: secrets+gpg-import, secrets+gpg-import-kubernetes, secrets+age-import, secrets+age-import-kubernetes, secrets, secrets+literal, https
+        resource.exclusions: |
+            - apiGroups:
+                - cilium.io
+              kinds:
+                - CiliumIdentity
+              clusters:
+                - "*"
+    secret:
+        argocdServerAdminPassword: null
+        argocdServerAdminPasswordMtime: 2024-12-06T19:36:32
+        githubSecret: e52287de94df5020269abebc64aa2b12
+controller:
+    replicas: 2
+    metrics:
+        enabled: true
+        applicationLabels:
+            enabled: true
+        serviceMonitor:
+            enabled: true
+            additionalLabels:
+                release: kube-prometheus-stack
+dex:
+    replicas: 2
+    metrics:
+        enabled: true
+        serviceMonitor:
+            enabled: true
+            additionalLabels:
+                release: kube-prometheus-stack
+redis:
+    metrics:
+        enabled: true
+        serviceMonitor:
+            enabled: true
+            additionalLabels:
+                release: kube-prometheus-stack
+server:
+    replicas: 2
+    allowAnyNamespace: true
+    ingress:
+        enabled: true
+        ingressClassName: external
+        annotations:
+            external-dns.alpha.kubernetes.io/target: external.przmo.com
+        hostname: argo.przmo.com
+    metrics:
+        enabled: true
+        serviceMonitor:
+            enabled: true
+            additionalLabels:
+                release: kube-prometheus-stack
+notifications:
+    replicas: 2
+    metrics:
+        enabled: true
+        serviceMonitor:
+            enabled: true
+            additionalLabels:
+                release: kube-prometheus-stack
+repoServer:
+    replicas: 2
+    serviceAccount:
+        create: true
+        name: argocd-repo-server
+    rbac:
+        - apiGroups:
+            - ""
+          resources:
+            - secrets
+          verbs:
+            - get
+    env:
+        - name: HELM_PLUGINS
+          value: /custom-tools/helm-plugins/
+        - name: HELM_SECRETS_CURL_PATH
+          value: /custom-tools/curl
+        - name: HELM_SECRETS_SOPS_PATH
+          value: /custom-tools/sops
+        - name: HELM_SECRETS_VALS_PATH
+          value: /custom-tools/vals
+        - name: HELM_SECRETS_KUBECTL_PATH
+          value: /custom-tools/kubectl
+        - name: HELM_SECRETS_BACKEND
+          value: sops
+        # https://github.com/jkroepke/helm-secrets/wiki/Security-in-shared-environments
+        - name: HELM_SECRETS_VALUES_ALLOW_SYMLINKS
+          value: "false"
+        - name: HELM_SECRETS_VALUES_ALLOW_ABSOLUTE_PATH
+          value: "true"
+        - name: HELM_SECRETS_VALUES_ALLOW_PATH_TRAVERSAL
+          value: "false"
+        - name: HELM_SECRETS_WRAPPER_ENABLED
+          value: "true"
+        - name: HELM_SECRETS_DECRYPT_SECRETS_IN_TMP_DIR
+          value: "true"
+        - name: HELM_SECRETS_HELM_PATH
+          value: /usr/local/bin/helm
+        # For age
+        - name: SOPS_AGE_KEY_FILE
+          value: /helm-secrets-private-keys/key.txt
+    volumes:
+        - name: custom-tools
+          emptyDir: {}
+        # kubectl create secret generic helm-secrets-private-keys --from-file=key.asc=assets/gpg/private2.gpg
+        - name: helm-secrets-private-keys
+          secret:
+            secretName: helm-secrets-private-keys
+    volumeMounts:
+        - mountPath: /custom-tools
+          name: custom-tools
+        - mountPath: /usr/local/sbin/helm
+          subPath: helm
+          name: custom-tools
+        - mountPath: /usr/local/bin/kustomize
+          name: custom-tools
+          subPath: kustomize
+        - mountPath: /usr/local/bin/ksops
+          name: custom-tools
+          subPath: ksops
+        - mountPath: /helm-secrets-private-keys/
+          name: helm-secrets-private-keys
+    initContainers:
+        - name: gitops-tools
+          image: ajaykumar4/gitops-tools:latest
+          imagePullPolicy: Always
+          command:
+            - sh
+            - -ec
+          args:
+            - |
+              mkdir -p /custom-tools/
+              cp -rf /gitops-tools/* /custom-tools
+              chmod +x /custom-tools/*
+          volumeMounts:
+            - mountPath: /custom-tools
+              name: custom-tools
+sops:
+    kms: []
+    gcp_kms: []
+    azure_kv: []
+    hc_vault: []
+    age:
+        - recipient: age1ws8tm4vrmhjvd0qqwxqshfz42nt6q4k5wwgqsuxyun0667dws59s79u6nc
+          enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBGUzhSWDZaMWd3ME05Nit1
+            UlorZFRuMEN6QXc4M2UwZzNmQkUyL2dXQjJZCjdzZjFnZ3Zsbk9nZVdTdUcxeGRD
+            cldZWEJna1R2Y3MwQ1ZjMklsN1MvSlEKLS0tIGZRRUdOeWdRQkhmc0NSYW9tWlhO
+            UFpPSGhOYTlTaXZSZklvWlFyU3RGVzQKqR2wc2jafevq8PW00VTziaqCEmfRJoBj
+            bZ+tz1SX998uHlMm7kwxSXT/tFz9AgSs65ibd5bYYNwuGO0Y6I96Hw==
+            -----END AGE ENCRYPTED FILE-----
+    lastmodified: "2024-12-07T01:36:33Z"
+    mac: ENC[AES256_GCM,data:1dTcJT4bCoIbz9YQP4mq7n2G4bCNIAAhwcSwQmxqxYn8EjA2VjQVp88mMnrwnDzcN2JD9foG4nyCoakMh+jWYPNGsfy3h4hh7W3ZfRiF5kz9e+h0owqPupbfP0O0ATRQWdpLGVGeeiobV3aURC463EyXVuMNwnWQCgxOX4JxH0I=,iv:6L1jAuAl7ArgqyjQgqmk0ohb2osnxJo+s462U/SBOwA=,tag:X0HVoUjxLC4oETkH6i+T1A==,type:str]
+    pgp: []
+    encrypted_regex: ^(data|stringData)$
+    version: 3.9.2

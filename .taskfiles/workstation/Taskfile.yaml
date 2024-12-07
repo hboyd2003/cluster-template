@@ -55,13 +55,14 @@ tasks:
           - yannh/kubeconform?as=kubeconform
         cmd: curl -fsSL "https://i.jpillora.com/{{.ITEM}}&type=script" | bash
       - cmd: |
-          curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl";
-          curl -sSfL -o sops https://github.com/getsops/sops/releases/latest/download/sops-v3.9.1.linux.amd64
+          VERSION=$(curl -s -L -o /dev/null -w "%{url_effective}" https://github.com/getsops/sops/releases/latest | xargs basename)
+          curl -LO "https://github.com/getsops/sops/releases/download/$VERSION/sops-$VERSION.linux.arm64"
+          mv "sops-$VERSION.linux.amd64" sops
         platforms: ['linux/amd64']
       - cmd: |
-          curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/arm64/kubectl";
-          curl -sSfL -o sops https://github.com/getsops/sops/releases/latest/download/sops-v3.9.1.linux.arm64
-        platforms: ['linux/arm64']
+          VERSION=$(curl -s -L -o /dev/null -w "%{url_effective}" https://github.com/getsops/sops/releases/latest | xargs basename)
+          curl -LO "https://github.com/getsops/sops/releases/download/$VERSION/sops-$VERSION.linux.amd64"
+          mv "sops-$VERSION.linux.arm64" sops
       - cmd: chmod +x kubectl sops
       - cmd: curl -sSfL https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
       - cmd: curl -sSfL https://github.com/mitsuhiko/minijinja/releases/latest/download/minijinja-cli-installer.sh | bash
@@ -74,7 +75,7 @@ tasks:
   venv:
     desc: Set up virtual environment
     cmds:
-      - python3 -m venv {{.VIRTUAL_ENV}}
+      - python3.12 -m venv {{.VIRTUAL_ENV}}
       - '{{.VIRTUAL_ENV}}/bin/python3 -m pip install --upgrade pip setuptools wheel'
       - '{{.VIRTUAL_ENV}}/bin/python3 -m pip install --upgrade --requirement "{{.ROOT_DIR}}/requirements.txt"'
     sources:

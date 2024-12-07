@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+    name: cloudflared-configmap
+data:
+    config.yaml: ENC[AES256_GCM,data:9ALNtmxunIGtOGXl94FgnLISjeVdPTV4+yo8wQsg9YHdVlwNv+fqs5/f5EsnMzFQpp8VP80zG7SqQTk8eBQ34E13nNmdnlnbjBnG0W/+SAePJgUGLhqhlC3C3iB4KE6a0FZbtEOkpOWelxJB/qv4R5bywWjsRsGg1CYdPT2VvUH58+k+a1ilcYk06QbnMh57X+1PjuU0fdNI3SdOydl+mIa+u/xryLaXOgbPS3Pjjlf62ixoUWcPvuwMpaPcjwfejC7KaC+7+G+QEBnpMZik8Yk1p8WIh4z5olrgpderGwBKGsxQ2cXhOLGTV8ygJsVwApv+YzU+yqh50kXTJF0O41fs5KQAeOK0Z35Iiod7ToCduWUkFlvwmcOcre4/lmTjHuuu/ucbRzOs0ayzUOVSG4sCHme6bdvXXRoUnAvRMcbksRJNirV9rUePFsBst87GKeXNZtlePA==,iv:CPUOFyPhvGLFS7VxVCvQPZX4/O2ofmu2eaIDtBjPBHc=,tag:CG+aNLL8iIUvV2pPmcAryg==,type:str]
+sops:
+    kms: []
+    gcp_kms: []
+    azure_kv: []
+    hc_vault: []
+    age:
+        - recipient: age1ws8tm4vrmhjvd0qqwxqshfz42nt6q4k5wwgqsuxyun0667dws59s79u6nc
+          enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBoMXg5Z0hhMGxQK3lEblJU
+            cEdsdlpjQVZLL1YyUEQ2S2lvRGRkQ2dGalZZCkx4R0NBaHVHdkU3Z3luVkIxY3RO
+            RUFDbGt6QlNJSjJLZXpVSVRYemJraTAKLS0tIEtKY2hxWW92RW1PeXJCQTdrd1JD
+            dVhFNkxYMSthY0IzWVNtNkg2MEN0UUkKENv+rUiizmrwHeCnX/jZaTSn41PY1It0
+            rMTpWx5AQzBXbZbb90zwH38IZvguGxh7Z2eBru53BBJVC8IU/+RraQ==
+            -----END AGE ENCRYPTED FILE-----
+    lastmodified: "2024-12-07T01:36:33Z"
+    mac: ENC[AES256_GCM,data:vpXjfZzoJKrjIVDjGRpcN0TTpjwChONCt8HfhgXUMi7/eDVef2S7y/VI6d5KvBkz1ci077hFZXDpAQ7+xihLa/KCmr8bdgf5JK1vvMfkXChCZ8U++ZkEe9DfSozcN2gpkDYH9uJRx0UnybOIa0Us9r+5SI9WLC6NyOnoR3Rlk20=,iv:1PJsYI5FHEESUD9ykiPWjLpUWz/22IebKr1KqDHGzqo=,tag:dPKxdMdK9VwZA/LuhOAo8w==,type:str]
+    pgp: []
+    encrypted_regex: ^(data|stringData)$
+    version: 3.9.2

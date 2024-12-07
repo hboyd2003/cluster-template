@@ -1,0 +1,129 @@
+autoDirectNodeRoutes: true
+bpf:
+    # Required for Talos `.machine.features.hostDNS.forwardKubeDNSToHost`
+    masquerade: false
+cgroup:
+    automount:
+        enabled: false
+    hostRoot: /sys/fs/cgroup
+cluster:
+    id: 1
+    name: home-kubernetes
+cni:
+    exclusive: false
+# NOTE: devices might need to be set if you have more than one active NIC on your hosts
+# devices: eno+ eth+
+endpointRoutes:
+    enabled: true
+envoy:
+    enabled: false
+ipam:
+    mode: kubernetes
+ipv4NativeRoutingCIDR: 10.69.0.0/16
+ipv6NativeRoutingCIDR: ""
+ipv6:
+    enabled: true
+k8sServiceHost: 127.0.0.1
+k8sServicePort: 7445
+kubeProxyReplacement: true
+kubeProxyReplacementHealthzBindAddr: 0.0.0.0:10256
+l2announcements:
+    # https://github.com/cilium/cilium/issues/28985
+    enabled: false
+loadBalancer:
+    algorithm: maglev
+    mode: snat
+localRedirectPolicy: true
+rollOutCiliumPods: true
+routingMode: native
+securityContext:
+    capabilities:
+        ciliumAgent:
+            - CHOWN
+            - KILL
+            - NET_ADMIN
+            - NET_RAW
+            - IPC_LOCK
+            - SYS_ADMIN
+            - SYS_RESOURCE
+            - DAC_OVERRIDE
+            - FOWNER
+            - SETGID
+            - SETUID
+        cleanCiliumState:
+            - NET_ADMIN
+            - SYS_ADMIN
+            - SYS_RESOURCE
+socketLB:
+    hostNamespaceOnly: true
+hubble:
+    enabled: true
+    metrics:
+        enabled:
+            - dns:query
+            - drop
+            - tcp
+            - flow
+            - port-distribution
+            - icmp
+            - http
+        serviceMonitor:
+            enabled: true
+        dashboards:
+            enabled: true
+            annotations:
+                grafana_folder: Cilium
+    relay:
+        enabled: true
+        rollOutPods: true
+        prometheus:
+            serviceMonitor:
+                enabled: true
+    ui:
+        enabled: true
+        rollOutPods: true
+        ingress:
+            enabled: true
+            className: internal
+            hosts:
+                - hubble.przmo.com
+operator:
+    replicas: 1
+    rollOutPods: true
+    prometheus:
+        enabled: true
+        serviceMonitor:
+            enabled: true
+    dashboards:
+        enabled: true
+        annotations:
+            grafana_folder: Cilium
+prometheus:
+    enabled: true
+    serviceMonitor:
+        enabled: true
+        trustCRDsExist: true
+dashboards:
+    enabled: true
+    annotations:
+        grafana_folder: Cilium
+sops:
+    kms: []
+    gcp_kms: []
+    azure_kv: []
+    hc_vault: []
+    age:
+        - recipient: age1ws8tm4vrmhjvd0qqwxqshfz42nt6q4k5wwgqsuxyun0667dws59s79u6nc
+          enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBFYytvUS9KcFYwMjByTC9v
+            UWR6ZFVRZ3JNWFpjYkJLZlhrSHNxRDUzK3dJCm5JZGVZT25TWXEya2lFTDh4ZUVO
+            MTczMVhvaXdpWDJuTUJrRVVsK0xaakUKLS0tIEpVaVZxU2I5alU0dzIwZloxVThs
+            YWZpbm1nODBNa1dWUjZCK3ZYdERvUlEKcvAi252L0FCcsr6siU/i+15UcJjGxyVP
+            gXUiGhovyXACZBWFyRmMYWuZFNBdvRegDNPJblB7NjAn5KR+TXG5pQ==
+            -----END AGE ENCRYPTED FILE-----
+    lastmodified: "2024-12-07T01:36:33Z"
+    mac: ENC[AES256_GCM,data:NiHE8g6hUM8DSVIQ2gLZ0RN9fAZLpJ7/8stzx4yaawQVUa6t9qHUqsMsdCLNREoyfDRnkQSS98ebgKldbnhp9L/KeTeUI/nbApOGoRQoKlBBeVskM6WlfSS0NZlZxgL1LiQcWbwxMTKoT2lyYNxfkOaWWCsWwptH1N8MQvhMtoU=,iv:INYTu2yNdWrmHRtg1tM24A6g0OQ2TATvKunnjFd94zA=,tag:rhPpOq1WQMK4OYfaboBreg==,type:str]
+    pgp: []
+    encrypted_regex: ^(data|stringData)$
+    version: 3.9.2
