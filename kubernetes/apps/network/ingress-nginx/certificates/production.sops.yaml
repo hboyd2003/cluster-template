@@ -1,0 +1,33 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+    name: przmo-com-production
+spec:
+    secretName: przmo-com-production-tls
+    issuerRef:
+        name: letsencrypt-production
+        kind: ClusterIssuer
+    commonName: przmo.com
+    dnsNames:
+        - przmo.com
+        - '*.przmo.com'
+sops:
+    kms: []
+    gcp_kms: []
+    azure_kv: []
+    hc_vault: []
+    age:
+        - recipient: age17ezpdaxrm9fgadmps3ru070f6kds27szenmr7jaz0d9f4vtm230qtwz7l0
+          enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSB2aElabmU4cFhPQlpaaGJ5
+            ekhIRWVSZjZnVlJNNDVCTkhrc0hmSi9aY3hFClZXa0JvalE2SkxKQU90TDdhUmV2
+            ZTNYZno4cUhEYVdSN0pCVVo1YzI3clUKLS0tIHl5dm84QmFiVklESFQvVmV5c1c4
+            azF3amdOZ1N5bXhqQUlxbWNoc2Y2ZTQKJkjeWUgek7dvBdQiXZpIcB9OnNMD59F+
+            p8n59NQt3R99LYxwuAenRNHoLdR0gY4gNWjG9O4a8r1+BKu9ZBdGMg==
+            -----END AGE ENCRYPTED FILE-----
+    lastmodified: "2024-12-10T19:53:22Z"
+    mac: ENC[AES256_GCM,data:eWkXb+xcr9PEReLhRtGuZ8ftcDJ+i5Vh4pIaWnpDUZevYNjLEiXJcrar6xy2sUWGI09O20ANjkGa5fIJj4PD1FgiOs3SBHxwNpkA2t3bwXf2xkBOcxsKW7NEsjcqPROSyiozw37C9LwreZ6VngnwXmS9kHSK8IF7iI+btcBO5Tk=,iv:3jeekQIIUQ7wpXrKCR7ZB4o5lJkKBnGTrDUkOXdmBBo=,tag:67ZwzCVK+lCkEIHmKXyX2w==,type:str]
+    pgp: []
+    encrypted_regex: ^(data|stringData)$
+    version: 3.9.1

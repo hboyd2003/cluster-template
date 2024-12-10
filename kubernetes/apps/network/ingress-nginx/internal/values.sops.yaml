@@ -1,0 +1,65 @@
+fullnameOverride: ingress-nginx-internal
+controller:
+    service:
+        annotations:
+            io.cilium/lb-ipam-ips: 10.0.1.3
+        externalTrafficPolicy: Cluster
+    ingressClassResource:
+        name: internal
+        default: true
+        controllerValue: k8s.io/internal
+    admissionWebhooks:
+        objectSelector:
+            matchExpressions:
+                - key: ingress-class
+                  operator: In
+                  values:
+                    - internal
+    config:
+        client-body-buffer-size: 100M
+        client-body-timeout: 120
+        client-header-timeout: 120
+        enable-brotli: "true"
+        enable-real-ip: "true"
+        hsts-max-age: 31449600
+        keep-alive-requests: 10000
+        keep-alive: 120
+        log-format-escape-json: "true"
+        log-format-upstream: |
+            {"time": "$time_iso8601", "remote_addr": "$proxy_protocol_addr", "x_forwarded_for": "$proxy_add_x_forwarded_for", "request_id": "$req_id", "remote_user": "$remote_user", "bytes_sent": $bytes_sent, "request_time": $request_time, "status": $status, "vhost": "$host", "request_proto": "$server_protocol", "path": "$uri", "request_query": "$args", "request_length": $request_length, "duration": $request_time, "method": "$request_method", "http_referrer": "$http_referer", "http_user_agent": "$http_user_agent"}
+        proxy-body-size: 0
+        proxy-buffer-size: 16k
+        ssl-protocols: TLSv1.3 TLSv1.2
+    metrics:
+        enabled: true
+        serviceMonitor:
+            enabled: true
+            namespaceSelector:
+                any: true
+    extraArgs:
+        default-ssl-certificate: network/przmo-com-staging-tls
+    resources:
+        requests:
+            cpu: 100m
+        limits:
+            memory: 500Mi
+sops:
+    kms: []
+    gcp_kms: []
+    azure_kv: []
+    hc_vault: []
+    age:
+        - recipient: age17ezpdaxrm9fgadmps3ru070f6kds27szenmr7jaz0d9f4vtm230qtwz7l0
+          enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSA0c2JuM25wRk1mbnIzYlht
+            TnY3RCt2eGdieVpGd2wwajNwcDJPYTVNR3hZCnNtbitQVHl3REcxckwvbjlVTno0
+            eWxtanFZcjg2cVNaLzh1RXJIYlZEZlEKLS0tIFBjSjZwaTBuMFFFL3RJMXlXZyta
+            ME9nRnBHNFBGRVhzTllNYWlIdDRVbDAKZzcjr/eFBwSzer/ZUe6KPNo8Za6HvLpe
+            TLPzQGqQoWl8T3oIRq5CL7xtPklIqLsHqU7Qs+nIH0yKuIV5ZfbJgQ==
+            -----END AGE ENCRYPTED FILE-----
+    lastmodified: "2024-12-10T19:53:22Z"
+    mac: ENC[AES256_GCM,data:WasgE+6w7xFb7Y4xzxpq74/8FIKqVSR0IGr5P7XWE05fv844oHjjGlymilhuY6uRdVjzeMx3bvRm1OIRn62wUTwVfUDtbgBbuayMOjYNPPRtet2SHx4qfrmjRdJr7ZUlwkh5fND95OTbR1CS98vemYt2+EI/1W3A4ski7amxkyA=,iv:FmWokdNeLLFZua7jqJwAzc4Ye+sdP/dIgiOELh6ky78=,tag:+ZyL2YCku9iqVhA+mdaD3Q==,type:str]
+    pgp: []
+    encrypted_regex: ^(data|stringData)$
+    version: 3.9.1

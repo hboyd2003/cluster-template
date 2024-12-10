@@ -1,0 +1,33 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+    name: przmo-com-staging
+spec:
+    secretName: przmo-com-staging-tls
+    issuerRef:
+        name: letsencrypt-staging
+        kind: ClusterIssuer
+    commonName: przmo.com
+    dnsNames:
+        - przmo.com
+        - '*.przmo.com'
+sops:
+    kms: []
+    gcp_kms: []
+    azure_kv: []
+    hc_vault: []
+    age:
+        - recipient: age17ezpdaxrm9fgadmps3ru070f6kds27szenmr7jaz0d9f4vtm230qtwz7l0
+          enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBmVmFHQlFIRDF0Q1R5UHk3
+            N1IzSzZ0ZkVjMUNQZE5acWZSakxoNW9nU1Q4CmFZcHlmcDhodDhCT0lXL1FhdVFM
+            anhaWkxpMWthTk5VQTBRM1NVQTNrMUkKLS0tIFg3Vmh2LzNaWGZKL3MwcUJqNk9Z
+            dm5jam93V1NZZFl3TUhtYnBmVkM1Z0EKB9lLp6aInPlLnaxLJ4xdeVpaYIpPDOoR
+            uASSrWeJ7cD5Bb3RYRPTkukl7LeEy7km3+O4B3nK9mmLhky0sizMiA==
+            -----END AGE ENCRYPTED FILE-----
+    lastmodified: "2024-12-10T19:53:22Z"
+    mac: ENC[AES256_GCM,data:EUUjI635SSIBZO481H9bPGRwGvse4YQzyV6efnBMVDTFNf6nAcTDbGKOTvhmRnIJbaG/X8zXd3GuO6IDkB+iET1eebiteevGYN4YZwwvAmve9izudrMUXgyTgJ10qZrJR0VFxTDMAehNRL8pMWpkiACVw7XumovuWu35Gt9PLl0=,iv:MAFa11FUp/J2Qn4RFiUNlGvtemSPmGhI1EtBkjh+Txg=,tag:XJyfvdAafPVxpO7oS0p/wg==,type:str]
+    pgp: []
+    encrypted_regex: ^(data|stringData)$
+    version: 3.9.1

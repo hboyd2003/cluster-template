@@ -1,0 +1,79 @@
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+    name: letsencrypt-staging
+spec:
+    acme:
+        server: https://acme-staging-v02.api.letsencrypt.org/directory
+        email: harrisonboyd400@gmail.com
+        privateKeySecretRef:
+            name: letsencrypt-staging
+        solvers:
+            - dns01:
+                cloudflare:
+                    apiTokenSecretRef:
+                        name: cert-manager-secret
+                        key: api-token
+              selector:
+                dnsZones:
+                    - przmo.com
+sops:
+    kms: []
+    gcp_kms: []
+    azure_kv: []
+    hc_vault: []
+    age:
+        - recipient: age17ezpdaxrm9fgadmps3ru070f6kds27szenmr7jaz0d9f4vtm230qtwz7l0
+          enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSB1V3hVYmYrV3BTMTM0c1hW
+            eWFrdEZ4V2ZvQnpIdENMNUNPdVpqNzQ1U1ZzCkhYRy9FMVNQNGVVRVlHUC9Oa0Np
+            clVRdGtxOU9YekoyY2ZJcHJiWERNZ2MKLS0tICtDbmR5cHdWUFFYVWRxK2ovR2Rr
+            RDhYT1R2YjVWdVF4VmlUSjJpNVJSQ2MKyf3LN03rjbSVQ6OTTxWnY5XgHS1AsiSe
+            b/Z0U1hV4gMSHWfln6UIRdiJW+UwbPtKxgNI3bM3iemBGZWiqT3kiw==
+            -----END AGE ENCRYPTED FILE-----
+    lastmodified: "2024-12-10T19:53:21Z"
+    mac: ENC[AES256_GCM,data:IUxNbJCMEpfLDxJ9OwuY1uooOS7ECKSbUVvxQsVgekA1/vO8GdCM1lupdd6XFdQK7V/srO4RQ4yra2tZuba63z1q7y+/w4d7KROHX+OstJW5oq7+zhxsTrfl1Q0BjhqmNE2NvwXgjtk4i+pum1POoU2gbXaRwJr76QpU/RpvOUc=,iv:mmHPaLd64nGKIFjuM8NL/dztRCd3kWUo/RPKucCXx8M=,tag:SIzsw7nVKtvCISjc7BDR1Q==,type:str]
+    pgp: []
+    encrypted_regex: ^(data|stringData)$
+    version: 3.9.1
+---
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+    name: letsencrypt-production
+spec:
+    acme:
+        server: https://acme-v02.api.letsencrypt.org/directory
+        email: harrisonboyd400@gmail.com
+        privateKeySecretRef:
+            name: letsencrypt-production
+        solvers:
+            - dns01:
+                cloudflare:
+                    apiTokenSecretRef:
+                        name: cert-manager-secret
+                        key: api-token
+              selector:
+                dnsZones:
+                    - przmo.com
+sops:
+    kms: []
+    gcp_kms: []
+    azure_kv: []
+    hc_vault: []
+    age:
+        - recipient: age17ezpdaxrm9fgadmps3ru070f6kds27szenmr7jaz0d9f4vtm230qtwz7l0
+          enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSB1V3hVYmYrV3BTMTM0c1hW
+            eWFrdEZ4V2ZvQnpIdENMNUNPdVpqNzQ1U1ZzCkhYRy9FMVNQNGVVRVlHUC9Oa0Np
+            clVRdGtxOU9YekoyY2ZJcHJiWERNZ2MKLS0tICtDbmR5cHdWUFFYVWRxK2ovR2Rr
+            RDhYT1R2YjVWdVF4VmlUSjJpNVJSQ2MKyf3LN03rjbSVQ6OTTxWnY5XgHS1AsiSe
+            b/Z0U1hV4gMSHWfln6UIRdiJW+UwbPtKxgNI3bM3iemBGZWiqT3kiw==
+            -----END AGE ENCRYPTED FILE-----
+    lastmodified: "2024-12-10T19:53:21Z"
+    mac: ENC[AES256_GCM,data:IUxNbJCMEpfLDxJ9OwuY1uooOS7ECKSbUVvxQsVgekA1/vO8GdCM1lupdd6XFdQK7V/srO4RQ4yra2tZuba63z1q7y+/w4d7KROHX+OstJW5oq7+zhxsTrfl1Q0BjhqmNE2NvwXgjtk4i+pum1POoU2gbXaRwJr76QpU/RpvOUc=,iv:mmHPaLd64nGKIFjuM8NL/dztRCd3kWUo/RPKucCXx8M=,tag:SIzsw7nVKtvCISjc7BDR1Q==,type:str]
+    pgp: []
+    encrypted_regex: ^(data|stringData)$
+    version: 3.9.1
